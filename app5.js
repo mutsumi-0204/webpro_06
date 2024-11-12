@@ -80,4 +80,67 @@ app.get("/janken", (req, res) => {
   res.render( 'janken', display );
 });
 
+app.get("/kaburuna", (req, res) => {
+  let color = req.query.color;
+  let con = Number( req.query.con );
+  let total = Number( req.query.total );
+  console.log( {color, con, total});
+  const num = Math.floor( Math.random() * 4 + 1 );
+  let cpu = '';
+  if( num==1 ) cpu = '赤';
+  else if( num==2 ) cpu = '青';
+  else if( num==3 ) cpu = '黄';
+  else cpu = '緑';
+
+  let w;
+  if(cpu === '赤'){
+    if(color === '赤') w = 0;
+    else w = 1
+  }else if(cpu === '青'){
+    if(color === '青') w = 0;
+    else w = 1
+  }else if(cpu === '黄'){
+    if(color === '黄') w = 0;
+    else w = 1
+  }else if(cpu === '緑'){
+    if(color === '緑') w = 0;
+    else w = 1
+  };
+
+  let judgement;
+  if(w === 1){
+    judgement = '成功';
+    con += 1;
+    total += 1;
+  }else{
+    judgement = '失敗';
+    total += 1;
+  };
+  const display = {
+    your: color,
+    cpu: cpu,
+    judgement: judgement,
+    con: con,
+    total: total
+  }
+  res.render( 'kaburuna', display );
+});
+
+app.get("/cards", (req, res) => {
+  let number = req.query.number;
+  console.log( {number});
+  const num = Math.floor( Math.random() * 4 + 1 );
+  let cpu = '';
+  if( num==1 ) cpu = 'スペード';
+  else if( num==2 ) cpu = 'ダイヤ';
+  else if( num==3 ) cpu = 'クローバー';
+  else cpu = 'ハート';
+
+  const display = {
+    your: number,
+    cpu: cpu,
+  }
+  res.render( 'cards', display );
+});
+
 app.listen(8080, () => console.log("Example app listening on port 8080!"));

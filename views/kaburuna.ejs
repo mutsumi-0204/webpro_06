@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <title>色被り阻止ゲーム</title>
+</head>
+<body>
+    <p>あなたの色は<%= your %>色です．</p>
+    <p>コンピュータは<%= cpu %>色です．</p>
+    <p>判定：<%= judgement %></p>
+    <p>現在<%= total %>回中<%= con %>回被っていません．</p>
+    <hr>
+    <form action="/kaburuna">
+        <input type="text" name="color" required>
+        <label for="color">色を入力</label>
+        <input type="hidden" name="con" value="<%= con %>">
+        <input type="hidden" name="total" value="<%= total %>">
+        <input type="submit" values="結果発表">
+    </form>   
+</body>
+</html>
