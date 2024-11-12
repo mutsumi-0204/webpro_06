@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <title>数字運試し</title>
+</head>
+<body>
+    <p>あなたの数字は<%= your %>です．</p>
+    <p>コンピュータは<%= cpu %>です．</p>
+    <p>判定：<%= judgement %></p>
+    <p>現在<%= total %>回中<%= suc %>回一致しています．</p>
+    <hr>
+    <form action="/fortune">
+        <input type="number" name="nums" required>
+        <label for="nums">1から6の数値のどれかが出てくるよ．当ててみよう</label>
+        <input type="hidden" name="suc" value="<%= suc %>">
+        <input type="hidden" name="total" value="<%= total %>">
+        <input type="submit" values="運命やいかに">
+    </form>   
+</body>
+</html>

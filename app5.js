@@ -131,49 +131,56 @@ app.get("/fortune", (req, res) => {
   let suc = Number( req.query.suc );
   let total = Number( req.query.total );
   console.log( {nums, suc, total});
-  const num = Math.floor( Math.random() * 3 + 1 );
+  const num = Math.floor( Math.random() * 6 + 1 );
   let cpu = '';
-  if( num==1 ) cpu = 'グー';
-  else if( num==2 ) cpu = 'チョキ';
-  else cpu = 'パー';
+  if( num==1 ) cpu = '1';
+  else if( num==2 ) cpu = '2';
+  else if( num==3 ) cpu = '3';
+  else if( num==4 ) cpu = '4';
+  else if( num==5 ) cpu = '5';
+  else cpu = '6';
 
-  let w;
-  if(cpu === 'パー'){
-    if(hand === 'グー') w = 0;
-    else if(hand === 'チョキ') w = 2;
-    else if(hand === 'パー') w = 1;
-    else w = 3
-  }else if(cpu === 'グー'){
-    if(hand === 'チョキ') w = 0;
-    else if(hand === 'パー') w = 2;
-    else if(hand === 'グー') w = 1;
-    else w = 3
-  }else if(cpu === 'チョキ'){
-    if(hand === 'パー') w = 0;
-    else if(hand === 'グー') w = 2;
-    else if(hand === 'チョキ') w = 1;
-    else w = 3
+  let n;
+  if(cpu === '1'){
+    if(nums === '1') n = 1;
+    else if(nums === '6') n = 2;
+    else n = 0
+  }else if(cpu === '2'){
+    if(nums === '2') n = 1;
+    else n = 0
+  }else if(cpu === '3'){
+    if(nums === '3') n = 1;
+    else n = 0
+  }else if(cpu === '4'){
+    if(nums === '4') n = 1;
+    else n = 0
+  }else if(cpu === '5'){
+    if(nums === '5') n = 1;
+    else n = 0
+  }else if(cpu === '6'){
+    if(nums === '6') n = 1;
+    else if(nums === '1') n = 2;
+    else n = 0
   };
 
   let judgement;
-  if(w === 2){
-    judgement = '勝ち';
-    win += 1;
+  if(n === 0){
+    judgement = '失敗';
     total += 1;
-  }else if(w === 1){
-    judgement = 'あいこ';
+  }else if(n === 1){
+    judgement = '成功';
+    suc += 1;
     total += 1;
-  }else if(w === 0){
-    judgement = '負け';
+  }else if(n === 2){
+    judgement = '大失敗';
     total += 1;
-  }else{
-    judgement = 'error';
   };
+
   const display = {
-    your: hand,
+    your: nums,
     cpu: cpu,
     judgement: judgement,
-    win: win,
+    suc: suc,
     total: total
   }
   res.render( 'fortune', display );
