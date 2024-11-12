@@ -82,9 +82,9 @@ app.get("/janken", (req, res) => {
 
 app.get("/kaburuna", (req, res) => {
   let color = req.query.color;
-  let con = Number( req.query.con );
+  let suc = Number( req.query.suc );
   let total = Number( req.query.total );
-  console.log( {color, con, total});
+  console.log( {color, suc, total});
   const num = Math.floor( Math.random() * 4 + 1 );
   let cpu = '';
   if( num==1 ) cpu = '赤';
@@ -110,7 +110,7 @@ app.get("/kaburuna", (req, res) => {
   let judgement;
   if(w === 1){
     judgement = '成功';
-    con += 1;
+    suc += 1;
     total += 1;
   }else{
     judgement = '失敗';
@@ -120,27 +120,63 @@ app.get("/kaburuna", (req, res) => {
     your: color,
     cpu: cpu,
     judgement: judgement,
-    con: con,
+    suc: suc,
     total: total
   }
   res.render( 'kaburuna', display );
 });
 
-app.get("/cards", (req, res) => {
-  let number = req.query.number;
-  console.log( {number});
-  const num = Math.floor( Math.random() * 4 + 1 );
+app.get("/fortune", (req, res) => {
+  let nums = req.query.nums;
+  let suc = Number( req.query.suc );
+  let total = Number( req.query.total );
+  console.log( {nums, suc, total});
+  const num = Math.floor( Math.random() * 3 + 1 );
   let cpu = '';
-  if( num==1 ) cpu = 'スペード';
-  else if( num==2 ) cpu = 'ダイヤ';
-  else if( num==3 ) cpu = 'クローバー';
-  else cpu = 'ハート';
+  if( num==1 ) cpu = 'グー';
+  else if( num==2 ) cpu = 'チョキ';
+  else cpu = 'パー';
 
+  let w;
+  if(cpu === 'パー'){
+    if(hand === 'グー') w = 0;
+    else if(hand === 'チョキ') w = 2;
+    else if(hand === 'パー') w = 1;
+    else w = 3
+  }else if(cpu === 'グー'){
+    if(hand === 'チョキ') w = 0;
+    else if(hand === 'パー') w = 2;
+    else if(hand === 'グー') w = 1;
+    else w = 3
+  }else if(cpu === 'チョキ'){
+    if(hand === 'パー') w = 0;
+    else if(hand === 'グー') w = 2;
+    else if(hand === 'チョキ') w = 1;
+    else w = 3
+  };
+
+  let judgement;
+  if(w === 2){
+    judgement = '勝ち';
+    win += 1;
+    total += 1;
+  }else if(w === 1){
+    judgement = 'あいこ';
+    total += 1;
+  }else if(w === 0){
+    judgement = '負け';
+    total += 1;
+  }else{
+    judgement = 'error';
+  };
   const display = {
-    your: number,
+    your: hand,
     cpu: cpu,
+    judgement: judgement,
+    win: win,
+    total: total
   }
-  res.render( 'cards', display );
+  res.render( 'fortune', display );
 });
 
 app.listen(8080, () => console.log("Example app listening on port 8080!"));
