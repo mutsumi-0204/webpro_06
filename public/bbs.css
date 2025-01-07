@@ -11,3 +11,11 @@
 .mes {
     margin-left: 30px;
 }
+
+.button-container {
+    position: relative;
+}
+
+button {
+    margin-left: 5px;
+}

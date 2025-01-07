@@ -80,9 +80,54 @@ document.querySelector('#check').addEventListener('click', () => {
                     cover.appendChild( name_area );
                     cover.appendChild( mes_area );
 
+                    let buttonContainer = document.createElement('div');
+                    buttonContainer.className = 'button-container';
+
+                    let heartButton = document.createElement('button');
+                    heartButton.innerText = '❤️';
+                    heartButton.addEventListener('click', () => {
+                        mes.likes = mes.likes || 0;
+                        mes.likes++;
+                        updateHeartCount(heartButton, mes.likes);
+                    });
+
+                    let replyButton = document.createElement('button');
+                    replyButton.innerText = '返信';
+                    replyButton.addEventListener('click', () => {
+                        const replyMessage = prompt('返信を入力してください');
+                        if (replyMessage) {
+                            postReply(mes.name, replyMessage);
+                        }
+                    });
+
+                    let deleteButton = document.createElement('button');
+                    deleteButton.innerText = '削除';
+                    deleteButton.addEventListener('click', () => {
+                        if (confirm('本当に削除しますか？')) {
+                            name_area.innerText = "非表示";
+                            mes_area.innerText = "削除された投稿";
+                            buttonContainer.innerHTML = '';
+                        }
+                    });
+
+                    buttonContainer.appendChild(heartButton);
+                    buttonContainer.appendChild(replyButton);
+                    buttonContainer.appendChild(deleteButton);
+                    cover.appendChild(buttonContainer);
+
                     bbs.appendChild( cover );
                 }
             })
         }
     });
 });
+
+function updateHeartCount(button, count) {
+    button.innerText = `❤️ ${count}`;
+}
+
+function postReply(originalName, replyMessage) {
+    const name = document.querySelector('#name').value;
+    const message = `>>${originalName}\n${replyMessage}`;
+    document.querySelector('#message').value = message;
+}
